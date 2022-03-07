@@ -1,0 +1,43 @@
+.App {
+  background-color: #222;
+  animation-name: color;
+  animation-duration: 480s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes color {
+  0% {
+    background-color: #222;
+  }
+  5% {
+    background-color:red;
+  }
+  10% {
+    background-color: blue;
+  }
+  15% {
+    background-color: pink;
+  }
+20% {
+    background-color: green;
+  }
+25% {
+    background-color: yello;
+  }
+30% {
+    background-color: purple;
+  }
+35% {
+    background-color: black;
+  }
+40% {
+    background-color: orange;
+  }
+50% {
+    background-color: violet;
+  }
+100% {
+    background-color: white;
+  }
+  
+}
