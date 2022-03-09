@@ -4,15 +4,26 @@ import "./animation.css";
 import { useState, useEffect } from "react";
 
 function App() {
-  var items = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ];
+ 
+  const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
 
   const [colorIndex, setColorIndex] = useState(1);
   let arrayColor = ["red", "yellow", "green", "blue", "magenta", "black"];
+  let ArrayColorValue = [0,1,2,3,4,5];
+
+  const colorValueMap ={
+   'red': 0,
+   'yellow': 1,
+   'green': 2,
+   'blue': 3,
+   'magenta': 4,
+   'black': 5,
+}
+
+
+
+
+
   function handleColorPeg(event) {
     document.querySelector("#row1").style.backgroundColor =
       event.target.getAttribute("value");
@@ -22,7 +33,8 @@ function App() {
     console.log("handleInputPeg ran", event);
 
     event.target.style.backgroundColor = arrayColor[colorIndex];
-
+    console.log("index value of peg", event.target.getAttribute("PegIndex"));
+    console.log(colorValueMap[arrayColor[colorIndex]], "colorValueMap")
     setColorIndex(colorIndex + 1);
   }
   useEffect(() => {
@@ -44,10 +56,10 @@ function App() {
           {[...Array(10)].map((_, i) => (
             <>
               <tr id={"row" + i}>
-                <td onClick={handleInputPeg} className="colorPeg"></td>
-                <td onClick={handleInputPeg} className="colorPeg"></td>
-                <td onClick={handleInputPeg} className="colorPeg"></td>
-                <td onClick={handleInputPeg} className="colorPeg"></td>
+                <td onClick={handleInputPeg} PegIndex='0' className="colorPeg"></td>
+                <td onClick={handleInputPeg} PegIndex='1' className="colorPeg"></td>
+                <td onClick={handleInputPeg} PegIndex='2' className="colorPeg"></td>
+                <td onClick={handleInputPeg} PegIndex='3' className="colorPeg"></td>
                 <td>
                   <div style={{ float: "left", width: "50%", height: "50%" }}>
                     <span className="hintPeg "></span>
