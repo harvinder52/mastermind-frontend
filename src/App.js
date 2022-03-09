@@ -7,7 +7,7 @@ function App() {
  
   const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
 
-  const [colorIndex, setColorIndex] = useState(1);
+  const [colorIndex, setColorIndex] = useState(0);
   let arrayColor = ["red", "yellow", "green", "blue", "magenta", "black"];
   let ArrayColorValue = [0,1,2,3,4,5];
 
@@ -33,10 +33,18 @@ function App() {
     console.log("handleInputPeg ran", event);
 
     event.target.style.backgroundColor = arrayColor[colorIndex];
-    console.log("index value of peg", event.target.getAttribute("PegIndex"));
-    console.log(colorValueMap[arrayColor[colorIndex]], "colorValueMap")
+    console.log("index value of peg", );
+    console.log(colorValueMap[arrayColor[colorIndex]], "colorValueMap");
+    let copyinputPegIndex = [...inputPegIndex];
+    copyinputPegIndex[event.target.getAttribute("PegIndex")] = colorValueMap[arrayColor[colorIndex]]
+    setInputPegIndex(copyinputPegIndex)
     setColorIndex(colorIndex + 1);
   }
+  useEffect(() => {
+
+  console.log(inputPegIndex, "inputPegIndex changed")
+
+  }, [inputPegIndex])
   useEffect(() => {
     if (colorIndex === 6) {
       setColorIndex(0);
