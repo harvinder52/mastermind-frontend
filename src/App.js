@@ -2,31 +2,51 @@ import "./App.css";
 import "./animation.css";
 import axios from "axios";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function App() {
   const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
   const baseURL = "http://localhost:8080/submit";
   const postURL = "http://localhost:8080/verifyGuess";
-
+  const tableBody = useRef();
 
   const onButtonCheckGuess = () => {
     axios.get(baseURL).then((response) => {
       console.log(response.data);
     });
 
-    axios.post(postURL , inputPegIndex)
-                .then(response => {
+    axios.post(postURL, inputPegIndex).then((response) => {
+      console.log(response.data);
+    });
 
-                     console.log(response.data);
-                      });
-
-    setRowIndex(rowIndex+1)
+    setRowIndex(rowIndex + 1);
   };
   const [rowIndex, setRowIndex] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
   let arrayColor = ["Red", "Yellow", "Green", "Blue", "Magenta", "Black"];
   let ArrayColorValue = [0, 1, 2, 3, 4, 5];
+
+  useEffect(() => {
+    if (rowIndex <= 9) {
+      console.log(
+        "rowIndex altered",
+        tableBody.current.children[rowIndex].children
+      );
+      for(let i = 0; i<=9; i++){
+         for (const peg of tableBody.current.children[rowIndex].children) {
+        peg.style['pointer-events'] = 'auto';
+        }
+
+        if(i!=rowIndex){
+          for (const peg of tableBody.current.children[i].children) {
+        peg.style['pointer-events'] = 'none';
+        }
+        
+      }
+      }
+      
+    }
+  }, [rowIndex]);
 
   const colorValueMap = {
     Red: 0,
@@ -68,11 +88,9 @@ function App() {
     <div className="App">
       <div className="header">MASTERMIND</div>
       <div className="boardContainer">
+        {("GUESS:", rowIndex)}
         <table>
-          <tbody>
-            <tr>
-              <th>Guess</th>
-            </tr>
+          <tbody ref={tableBody}>
             {[...Array(10)].map((_, i) => (
               <>
                 <tr id={"row" + i} key={"key" + i}>
@@ -124,7 +142,7 @@ function App() {
               </li>
             ))}
             <li>
-              <button className="checkButton" onClick={onButtonCheckGuess} >
+              <button className="checkButton" onClick={onButtonCheckGuess} disabled={true}>
                 Check
               </button>
             </li>
