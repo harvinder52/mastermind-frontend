@@ -1,28 +1,41 @@
 import "./App.css";
 import "./animation.css";
+import axios from "axios";
 
 import { useState, useEffect } from "react";
 
 function App() {
- 
   const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
+  const baseURL = "http://localhost:8080/submit";
+  const postURL = "http://localhost:8080/verifyGuess";
 
+
+  const onButtonCheckGuess = () => {
+    axios.get(baseURL).then((response) => {
+      console.log(response.data);
+    });
+
+    axios.post(postURL , inputPegIndex)
+                .then(response => {
+
+                     console.log(response.data);
+                      });
+
+    setRowIndex(rowIndex+1)
+  };
+  const [rowIndex, setRowIndex] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
-  let arrayColor = ["red", "yellow", "green", "blue", "magenta", "black"];
-  let ArrayColorValue = [0,1,2,3,4,5];
+  let arrayColor = ["Red", "Yellow", "Green", "Blue", "Magenta", "Black"];
+  let ArrayColorValue = [0, 1, 2, 3, 4, 5];
 
-  const colorValueMap ={
-   'red': 0,
-   'yellow': 1,
-   'green': 2,
-   'blue': 3,
-   'magenta': 4,
-   'black': 5,
-}
-
-
-
-
+  const colorValueMap = {
+    Red: 0,
+    Yellow: 1,
+    Green: 2,
+    Blue: 3,
+    Magenta: 4,
+    Black: 5,
+  };
 
   function handleColorPeg(event) {
     document.querySelector("#row1").style.backgroundColor =
@@ -30,21 +43,20 @@ function App() {
     console.log("handleColorPeg ran", event.target.getAttribute("value"));
   }
   function handleInputPeg(event) {
-    console.log("handleInputPeg ran", event);
+    console.log("handleInputPeg ran", event.target.getAttribute("pegindex"));
 
     event.target.style.backgroundColor = arrayColor[colorIndex];
-    console.log("index value of peg", );
+    console.log("index value of peg");
     console.log(colorValueMap[arrayColor[colorIndex]], "colorValueMap");
     let copyinputPegIndex = [...inputPegIndex];
-    copyinputPegIndex[event.target.getAttribute("PegIndex")] = colorValueMap[arrayColor[colorIndex]]
-    setInputPegIndex(copyinputPegIndex)
+    copyinputPegIndex[event.target.getAttribute("pegindex")] =
+      colorValueMap[arrayColor[colorIndex]];
+    setInputPegIndex(copyinputPegIndex);
     setColorIndex(colorIndex + 1);
   }
   useEffect(() => {
-
-  console.log(inputPegIndex, "inputPegIndex changed")
-
-  }, [inputPegIndex])
+    console.log(inputPegIndex, "inputPegIndex changed");
+  }, [inputPegIndex]);
   useEffect(() => {
     if (colorIndex === 6) {
       setColorIndex(0);
@@ -57,78 +69,64 @@ function App() {
       <div className="header">MASTERMIND</div>
       <div className="boardContainer">
         <table>
-          {" "}
-          <tr>
-            <th>Guess</th>
-          </tr>
-          {[...Array(10)].map((_, i) => (
-            <>
-              <tr id={"row" + i}>
-                <td onClick={handleInputPeg} PegIndex='0' className="colorPeg"></td>
-                <td onClick={handleInputPeg} PegIndex='1' className="colorPeg"></td>
-                <td onClick={handleInputPeg} PegIndex='2' className="colorPeg"></td>
-                <td onClick={handleInputPeg} PegIndex='3' className="colorPeg"></td>
-                <td>
-                  <div style={{ float: "left", width: "50%", height: "50%" }}>
-                    <span className="hintPeg "></span>
-                    <span className="hintPeg "></span>
-                    <span className="hintPeg "></span>
-                    <span className="hintPeg "></span>
-                  </div>
-                </td>
-              </tr>
-            </>
-          ))}
+          <tbody>
+            <tr>
+              <th>Guess</th>
+            </tr>
+            {[...Array(10)].map((_, i) => (
+              <>
+                <tr id={"row" + i} key={"key" + i}>
+                  <td
+                    onClick={handleInputPeg}
+                    pegindex="0"
+                    className="colorPeg"
+                  ></td>
+                  <td
+                    onClick={handleInputPeg}
+                    pegindex="1"
+                    className="colorPeg"
+                  ></td>
+                  <td
+                    onClick={handleInputPeg}
+                    pegindex="2"
+                    className="colorPeg"
+                  ></td>
+                  <td
+                    onClick={handleInputPeg}
+                    pegindex="3"
+                    className="colorPeg"
+                  ></td>
+                  <td>
+                    <div style={{ float: "left", width: "50%", height: "50%" }}>
+                      <span className="hintPeg "></span>
+                      <span className="hintPeg "></span>
+                      <span className="hintPeg "></span>
+                      <span className="hintPeg "></span>
+                    </div>
+                  </td>
+                </tr>
+              </>
+            ))}
+          </tbody>
         </table>
       </div>
 
       <div className="playerInputContainer">
         <div>
           <ul className="colorList">
+            {arrayColor.map((color, i) => (
+              <li key={i}>
+                <span
+                  onClick={handleColorPeg}
+                  value={color}
+                  className={`colorPeg ColorPeg${color}`}
+                ></span>
+              </li>
+            ))}
             <li>
-              <span
-                onClick={handleColorPeg}
-                value="red"
-                className="colorPeg ColorPegRed"
-              ></span>
-            </li>
-            <li>
-              <span
-                onClick={handleColorPeg}
-                value="yellow"
-                className="colorPeg ColorPegYellow"
-              ></span>
-            </li>
-            <li>
-              <span
-                onClick={handleColorPeg}
-                value="green"
-                className="colorPeg ColorPegGreen"
-              ></span>
-            </li>
-            <li>
-              <span
-                onClick={handleColorPeg}
-                value="blue"
-                className="colorPeg ColorPegBlue"
-              ></span>
-            </li>
-            <li>
-              <span
-                onClick={handleColorPeg}
-                value="magenta"
-                className="colorPeg ColorPegMagenta"
-              ></span>
-            </li>
-            <li>
-              <span
-                onClick={handleColorPeg}
-                value="black"
-                className="colorPeg ColorPegBlack"
-              ></span>
-            </li>
-            <li>
-              <button className="checkButton">Check</button>
+              <button className="checkButton" onClick={onButtonCheckGuess} >
+                Check
+              </button>
             </li>
           </ul>
         </div>
