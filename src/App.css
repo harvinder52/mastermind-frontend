@@ -95,11 +95,17 @@
 .hintPeg {
   height: 15px;
   width: 15px;
-  background-color: #fff;
+  background-color: white;
   border-radius: 50%;
   display: inline-block;
   vertical-align: middle;
    box-shadow: -2px 1px 16px 0px rgb(150 145 151 / 28%);
+}
+.hintPegRed{
+  background-color: red;
+}
+.hintPegBlack{
+  background-color: black;
 }
 
 .ColorPegYellow{
