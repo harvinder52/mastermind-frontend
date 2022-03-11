@@ -1,4 +1,4 @@
-.App {
+.area {
   background-color: #222;
   animation-name: color;
   animation-duration: 480s;
@@ -7,10 +7,10 @@
 
 @keyframes color {
   0% {
-    background-color: white;
+    background-color: orange;
   }
   5% {
-    background-color:red;
+    background-color:purple;
   }
   10% {
     background-color: blue;
@@ -22,7 +22,7 @@
     background-color: green;
   }
 25% {
-    background-color: yello;
+    background-color: yellow;
   }
 30% {
     background-color: purple;
@@ -35,6 +35,9 @@
   }
 50% {
     background-color: violet;
+  }
+  55%{
+     background-color: red;
   }
 100% {
     background-color: white;
