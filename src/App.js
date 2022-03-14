@@ -6,7 +6,8 @@ import { useState, useEffect, useRef } from "react";
 
 function App() {
   const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
-  const [hints, setHints] = useState(["-", "-", "-", "-"]);
+  const [hints, setHints] = useState(["-", "-", "+", "-"]);
+  const [popUpText, setpopUpText] = useState("PLAY NOW!");
   const baseURL = "http://localhost:8080/submit";
   const postURL = "http://localhost:8080/verifyGuess";
   const tableBody = useRef();
@@ -81,6 +82,7 @@ function App() {
   }
   useEffect(() => {
     console.log(hints, "hints recieved");
+     console.log(hints.toString()===['-', '-', '-', '-'].toString(), "hints match");
     if (rowIndex - 1 >= 0) {
       hints.forEach((hint, index) => {
         document
@@ -91,6 +93,10 @@ function App() {
 
         //.classList.add(".hintPegRed")
       });
+    }
+    if (hints.toString()===['-', '-', '-', '-'].toString()){
+       document.querySelector(".wrapper").style.display = "flex";
+       setpopUpText("PLAY AGAIN!")
     }
   }, [hints]);
   useEffect(() => {
@@ -107,14 +113,16 @@ function App() {
     <div className="App">
       <div className="wrapper">
         <div className="modal">
-          
-          welcome
-          <button
+          <div className="popUpText" > 
+          {`${hints.toString()===['-', '-', '-', '-'].toString()?"YOU WIN!":`Players Online:21`}`}
+          </div>            
+         
+          <button className="playNowBtn"
             onClick={() => {
               document.querySelector(".wrapper").style.display = "none";
                            }}
           >
-            PLAY NOW!
+            {popUpText}
           </button>
         </div>
       </div>
