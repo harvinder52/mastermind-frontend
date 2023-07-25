@@ -5,8 +5,12 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
 function App() {
-  const [inputPegIndex, setInputPegIndex] = useState([9, 9, 9, 9]);
+  const [inputPegIndex, setInputPegIndex] = useState([8, 8, 5, 4]);
   const [hints, setHints] = useState(["-", "-", "+", "-"]);
+  const [rowIndex, setRowIndex] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
+  let arrayColor = ["Red", "Yellow", "Green", "Blue", "Magenta", "Black"];
+  let ArrayColorValue = [0, 1, 2, 3, 4, 5];
   const [popUpText, setpopUpText] = useState("PLAY NOW!");
   const baseURL = "http://localhost:8080/submit";
   const postURL = "http://localhost:8080/verifyGuess";
@@ -20,17 +24,11 @@ function App() {
     axios.post(postURL, inputPegIndex).then((response) => {
       console.log(response.data);
       setHints(response.data);
-     
     });
-     setInputPegIndex([9, 9, 9, 9]);
-      setRowIndex(rowIndex + 1);
-      console.log(document.querySelector(".hintsPegs1").children);
+    setInputPegIndex([9, 9, 9, 9]);
+    setRowIndex(rowIndex + 1);
+    console.log(document.querySelector(".hintsPegs1").children);
   };
-
-  const [rowIndex, setRowIndex] = useState(0);
-  const [colorIndex, setColorIndex] = useState(0);
-  let arrayColor = ["Red", "Yellow", "Green", "Blue", "Magenta", "Black"];
-  let ArrayColorValue = [0, 1, 2, 3, 4, 5];
 
   useEffect(() => {
     if (rowIndex <= 9) {
@@ -49,10 +47,8 @@ function App() {
           }
         }
       }
-    }else{
-       window.location.reload();
-
-
+    } else {
+      window.location.reload();
     }
   }, [rowIndex]);
 
@@ -82,7 +78,10 @@ function App() {
   }
   useEffect(() => {
     console.log(hints, "hints recieved");
-     console.log(hints.toString()===['-', '-', '-', '-'].toString(), "hints match");
+    console.log(
+      hints.toString() === ["-", "-", "-", "-"].toString(),
+      "hints match"
+    );
     if (rowIndex - 1 >= 0) {
       hints.forEach((hint, index) => {
         document
@@ -94,9 +93,9 @@ function App() {
         //.classList.add(".hintPegRed")
       });
     }
-    if (hints.toString()===['-', '-', '-', '-'].toString()){
-       document.querySelector(".wrapper").style.display = "flex";
-       setpopUpText("PLAY AGAIN!")
+    if (hints.toString() === ["-", "-", "-", "-"].toString()) {
+      document.querySelector(".wrapper").style.display = "flex";
+      setpopUpText("PLAY AGAIN!");
     }
   }, [hints]);
   useEffect(() => {
@@ -113,14 +112,19 @@ function App() {
     <div className="App">
       <div className="wrapper">
         <div className="modal">
-          <div className="popUpText" > 
-          {`${hints.toString()===['-', '-', '-', '-'].toString()?"YOU WIN!":`Players Online:21`}`}
-          </div>            
-         
-          <button className="playNowBtn"
+          <div className="popUpText">
+            {`${
+              hints.toString() === ["-", "-", "-", "-"].toString()
+                ? "YOU WIN!"
+                : `Players Online:21`
+            }`}
+          </div>
+
+          <button
+            className="playNowBtn"
             onClick={() => {
               document.querySelector(".wrapper").style.display = "none";
-                           }}
+            }}
           >
             {popUpText}
           </button>
@@ -141,48 +145,50 @@ function App() {
         </ul>
       </div>
       <div className="header">MASTERMIND</div>
-      <div className="boardContainer">
-        <table>
-          <tbody ref={tableBody}>
-            {[...Array(10)].map((_, i) => (
-              <>
-                <tr id={"row" + i} key={"key" + i}>
-                  <td
-                    onClick={handleInputPeg}
-                    pegindex="0"
-                    className="colorPeg"
-                  ></td>
-                  <td
-                    onClick={handleInputPeg}
-                    pegindex="1"
-                    className="colorPeg"
-                  ></td>
-                  <td
-                    onClick={handleInputPeg}
-                    pegindex="2"
-                    className="colorPeg"
-                  ></td>
-                  <td
-                    onClick={handleInputPeg}
-                    pegindex="3"
-                    className="colorPeg"
-                  ></td>
-                  <td>
-                    <div
-                      className={`hintsPegs${i}`}
-                      style={{ float: "left", width: "50%", height: "50%" }}
-                    >
-                      <span className="hintPeg "></span>
-                      <span className="hintPeg "></span>
-                      <span className="hintPeg "></span>
-                      <span className="hintPeg "></span>
-                    </div>
-                  </td>
-                </tr>
-              </>
-            ))}
-          </tbody>
-        </table>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className="boardContainer">
+          <table>
+            <tbody ref={tableBody}>
+              {[...Array(10)].map((_, i) => (
+                <>
+                  <tr id={"row" + i} key={"key" + i}>
+                    <td
+                      onClick={handleInputPeg}
+                      pegindex="0"
+                      className="colorPeg"
+                    ></td>
+                    <td
+                      onClick={handleInputPeg}
+                      pegindex="1"
+                      className="colorPeg"
+                    ></td>
+                    <td
+                      onClick={handleInputPeg}
+                      pegindex="2"
+                      className="colorPeg"
+                    ></td>
+                    <td
+                      onClick={handleInputPeg}
+                      pegindex="3"
+                      className="colorPeg"
+                    ></td>
+                    <td>
+                      <div
+                        className={`hintsPegs${i}`}
+                        style={{ float: "left", width: "50%", height: "50%" }}
+                      >
+                        <span className="hintPeg "></span>
+                        <span className="hintPeg "></span>
+                        <span className="hintPeg "></span>
+                        <span className="hintPeg "></span>
+                      </div>
+                    </td>
+                  </tr>
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="playerInputContainer">
