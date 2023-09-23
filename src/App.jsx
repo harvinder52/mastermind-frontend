@@ -205,7 +205,11 @@ function App() {
             ))}
             <li>
               <button
-                className="checkButton"
+                className={
+                  inputPegIndex.includes(9)
+                    ? "checkButton"
+                    : "checkButton green"
+                }
                 onClick={onButtonCheckGuess}
                 disabled={inputPegIndex.includes(9) ? true : false}
               >
